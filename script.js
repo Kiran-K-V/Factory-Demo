@@ -4,6 +4,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const todoList = document.getElementById('todo-list');
     const taskCount = document.getElementById('task-count');
     const emptyState = document.getElementById('empty-state');
+    const themeToggle = document.getElementById('theme-toggle');
+
+    const THEME_KEY = 'todo-theme';
+    const savedTheme = localStorage.getItem(THEME_KEY);
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const startDark = savedTheme ? savedTheme === 'dark' : prefersDark;
+
+    applyTheme(startDark);
+    themeToggle.checked = startDark;
+
+    themeToggle.addEventListener('change', () => {
+        applyTheme(themeToggle.checked);
+        localStorage.setItem(THEME_KEY, themeToggle.checked ? 'dark' : 'light');
+    });
+
+    function applyTheme(isDark) {
+        document.body.classList.toggle('dark', isDark);
+    }
 
     addBtn.addEventListener('click', addTask);
     todoInput.addEventListener('keypress', (e) => {
