@@ -1,50 +1,297 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple To-Do App</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="app">
-        <aside class="sidebar">
-            <h2 class="sidebar-title">Filters</h2>
-            <ul class="filter-list">
-                <li class="filter-item active" data-filter="all">
-                    <span class="filter-label">All</span>
-                    <span class="filter-count" data-count="all">0</span>
-                </li>
-                <li class="filter-item" data-filter="todo">
-                    <span class="filter-label">To Do</span>
-                    <span class="filter-count" data-count="todo">0</span>
-                </li>
-                <li class="filter-item" data-filter="in-progress">
-                    <span class="filter-label">In Progress</span>
-                    <span class="filter-count" data-count="in-progress">0</span>
-                </li>
-                <li class="filter-item" data-filter="done">
-                    <span class="filter-label">Done</span>
-                    <span class="filter-count" data-count="done">0</span>
-                </li>
-            </ul>
-        </aside>
-        <div class="container">
-            <h1>To-Do List</h1>
-            <p class="subtitle">Stay organized, stay productive</p>
-            <div class="input-container">
-                <input type="text" id="todo-input" placeholder="Add a new task...">
-                <button id="add-btn">+</button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Auralink One — premium AI headphones platform with immersive sound, adaptive noise canceling, and crystal clear collaboration."
+    />
+    <title>Auralink One | Next-Gen Headphone SaaS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <header class="site-header" id="top">
+      <div class="container nav-wrap">
+        <a href="#top" class="brand" aria-label="Auralink home">
+          <span class="brand-dot" aria-hidden="true"></span>
+          <span>Auralink One</span>
+        </a>
+
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-controls="main-nav"
+          aria-expanded="false"
+        >
+          <span class="visually-hidden">Toggle navigation</span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <nav id="main-nav" class="main-nav" aria-label="Main navigation">
+          <a href="#product">Product</a>
+          <a href="#features">Features</a>
+          <a href="#testimonials">Testimonials</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#cta" class="btn btn-small">Start free</a>
+          <button
+            class="theme-toggle"
+            type="button"
+            role="switch"
+            aria-checked="false"
+            aria-label="Toggle dark mode"
+            title="Toggle dark mode"
+          >
+            <span class="theme-toggle-track">
+              <span class="theme-toggle-thumb"></span>
+            </span>
+            <span class="theme-toggle-label">Dark</span>
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <section class="hero section">
+        <div class="hero-glow hero-glow-1" data-parallax data-speed="0.02"></div>
+        <div class="hero-glow hero-glow-2" data-parallax data-speed="0.04"></div>
+        <div class="container hero-grid">
+          <div class="hero-copy reveal">
+            <p class="eyebrow">AI Audio Platform</p>
+            <h1>Hear Every Detail. Lead Every Call.</h1>
+            <p class="hero-text">
+              Auralink One combines premium hardware and cloud intelligence to
+              deliver immersive sound, adaptive silence, and studio-grade voice
+              clarity for teams.
+            </p>
+            <div class="hero-actions">
+              <a href="#pricing" class="btn btn-primary">Get started</a>
+              <a href="#product" class="btn btn-ghost">Watch demo</a>
             </div>
-            <div class="task-count" id="task-count"></div>
-            <ul id="todo-list">
-                <li class="empty-state" id="empty-state">
-                    <span class="icon">✓</span>
-                    No tasks yet. Add one above!
-                </li>
+            <ul class="hero-stats" aria-label="Key product metrics">
+              <li>
+                <strong>42ms</strong>
+                <span>Ultra-low latency</span>
+              </li>
+              <li>
+                <strong>60h</strong>
+                <span>Battery life</span>
+              </li>
+              <li>
+                <strong>99.98%</strong>
+                <span>Voice uptime SLA</span>
+              </li>
             </ul>
+          </div>
+
+          <div class="hero-visual reveal" data-tilt>
+            <div class="device-card" aria-hidden="true">
+              <div class="device-top">
+                <span class="device-led"></span>
+                <span class="device-wave"></span>
+              </div>
+              <div class="device-body">
+                <div class="ring ring-a"></div>
+                <div class="ring ring-b"></div>
+                <div class="ring ring-c"></div>
+              </div>
+              <div class="device-bottom">
+                <div class="meter">
+                  <span style="--w: 92%"></span>
+                  <span style="--w: 78%"></span>
+                  <span style="--w: 84%"></span>
+                  <span style="--w: 66%"></span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
+      </section>
+
+      <section id="product" class="section product-section">
+        <div class="container">
+          <div class="section-head reveal">
+            <p class="eyebrow">Product highlights</p>
+            <h2>Built for focus, tuned for performance</h2>
+          </div>
+          <div class="product-grid">
+            <article class="card reveal" data-tilt>
+              <h3>Adaptive ANC 3.0</h3>
+              <p>
+                Real-time environment scanning filters noise with dynamic
+                profiles for office, home, and travel.
+              </p>
+            </article>
+            <article class="card reveal" data-tilt>
+              <h3>Spatial Presence</h3>
+              <p>
+                AI-driven beamforming keeps your voice centered and natural in
+                every meeting.
+              </p>
+            </article>
+            <article class="card reveal" data-tilt>
+              <h3>Cloud Audio Command</h3>
+              <p>
+                Fleet insights, remote tuning, and security controls in one
+                intuitive admin panel.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="features" class="section features-section">
+        <div class="container">
+          <div class="section-head reveal">
+            <p class="eyebrow">Core features</p>
+            <h2>Everything your team needs to sound exceptional</h2>
+          </div>
+          <div class="features-grid">
+            <article class="feature-card reveal">
+              <h3>Smart EQ Profiles</h3>
+              <p>Auto-adjusts frequency curves to your hearing preferences.</p>
+            </article>
+            <article class="feature-card reveal">
+              <h3>Instant Device Handoff</h3>
+              <p>Seamlessly switch between laptop, phone, and tablet.</p>
+            </article>
+            <article class="feature-card reveal">
+              <h3>Zero-Trust Pairing</h3>
+              <p>Hardware-encrypted pairing with enterprise-grade safeguards.</p>
+            </article>
+            <article class="feature-card reveal">
+              <h3>Voice Isolator</h3>
+              <p>Suppresses transient noises while preserving natural tone.</p>
+            </article>
+            <article class="feature-card reveal">
+              <h3>Auto Firmware Rollouts</h3>
+              <p>Schedule safe, staged updates across your entire workspace.</p>
+            </article>
+            <article class="feature-card reveal">
+              <h3>Real-time Analytics</h3>
+              <p>Track battery health, quality scores, and call reliability.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="testimonials" class="section testimonials-section">
+        <div class="container">
+          <div class="section-head reveal">
+            <p class="eyebrow">Social proof</p>
+            <h2>Trusted by modern teams worldwide</h2>
+          </div>
+          <div class="testimonial-grid">
+            <blockquote class="quote reveal">
+              <p>
+                “Auralink cut our call fatigue in half and raised meeting audio
+                quality overnight.”
+              </p>
+              <cite>— Priya Anand, Ops Lead at CoreShift</cite>
+            </blockquote>
+            <blockquote class="quote reveal">
+              <p>
+                “The noise cancellation and analytics dashboard are in a class
+                of their own.”
+              </p>
+              <cite>— Leo Martinez, IT Director at Novalane</cite>
+            </blockquote>
+            <blockquote class="quote reveal">
+              <p>
+                “Setup took minutes, and every remote employee instantly heard
+                the difference.”
+              </p>
+              <cite>— Morgan Kim, People Tech at BlueHarbor</cite>
+            </blockquote>
+          </div>
+        </div>
+      </section>
+
+      <section id="pricing" class="section pricing-section">
+        <div class="container">
+          <div class="section-head reveal">
+            <p class="eyebrow">Pricing</p>
+            <h2>Flexible plans for teams of any size</h2>
+          </div>
+          <div class="pricing-grid">
+            <article class="price-card reveal">
+              <h3>Starter</h3>
+              <p class="price">$19<span>/user</span></p>
+              <ul>
+                <li>AI noise cancellation</li>
+                <li>Multi-device sync</li>
+                <li>Email support</li>
+              </ul>
+              <a href="#cta" class="btn btn-ghost">Choose Starter</a>
+            </article>
+            <article class="price-card featured reveal" data-tilt>
+              <p class="badge">Most popular</p>
+              <h3>Scale</h3>
+              <p class="price">$39<span>/user</span></p>
+              <ul>
+                <li>Everything in Starter</li>
+                <li>Cloud Audio Command</li>
+                <li>Priority support</li>
+              </ul>
+              <a href="#cta" class="btn btn-primary">Choose Scale</a>
+            </article>
+            <article class="price-card reveal">
+              <h3>Enterprise</h3>
+              <p class="price">Custom</p>
+              <ul>
+                <li>Dedicated success manager</li>
+                <li>SSO & policy controls</li>
+                <li>Advanced security reports</li>
+              </ul>
+              <a href="#cta" class="btn btn-ghost">Talk to sales</a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="cta" class="section cta-section">
+        <div class="container reveal">
+          <div class="cta-card" data-tilt>
+            <h2>Ready to upgrade your listening stack?</h2>
+            <p>
+              Start a free 14-day trial and experience next-generation focus.
+            </p>
+            <form class="cta-form" action="#" method="post" novalidate>
+              <label for="email" class="visually-hidden">Work email</label>
+              <input
+                id="email"
+                type="email"
+                placeholder="you@company.com"
+                autocomplete="email"
+              />
+              <button type="submit" class="btn btn-primary">Start free trial</button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-wrap">
+        <p>© 2026 Auralink One. All rights reserved.</p>
+        <nav aria-label="Footer links">
+          <a href="#top">Top</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#features">Features</a>
+        </nav>
+      </div>
+    </footer>
+
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
