@@ -55,6 +55,10 @@
       if (!target) return;
 
       event.preventDefault();
+      if (href === "#top") {
+        window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+        return;
+      }
       target.scrollIntoView({
         behavior: reduceMotion ? "auto" : "smooth",
         block: "start",
