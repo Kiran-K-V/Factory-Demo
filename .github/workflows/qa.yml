@@ -69,6 +69,10 @@ jobs:
         env:
           GITHUB_WORKSPACE: ${{ github.workspace }}
           QA_BASE_URL: "http://localhost:8080/index.html"
+          FACTORY_API_KEY: ${{ secrets.FACTORY_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           mkdir -p qa-results
           droid exec --auto high \
