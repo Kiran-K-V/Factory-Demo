@@ -1,0 +1,80 @@
+project: Auralink-One-Landing
+imagemagick: false
+
+environments:
+  local-static:
+    url: "file://{REPO_ROOT}/index.html"
+    restrictions: []
+    notes: >
+      Static landing page. Open the local index.html directly via the file://
+      protocol. If a flow needs a real origin (e.g., service workers, CORS-bound
+      fonts), fall back to a local HTTP server started by the test runner:
+      `python3 -m http.server 8080` from REPO_ROOT, then use
+      http://localhost:8080/index.html.
+  local-server:
+    url: "http://localhost:8080/index.html"
+    restrictions: []
+    notes: >
+      Optional fallback origin. Only use this when file:// behaves differently
+      from a real http origin (rare for this landing page).
+
+default_target: local-static
+
+auth:
+  method: none
+  provider: none
+  notes: >
+    No authentication exists. The CTA form is a mocked client-side handler that
+    swaps the button label to "You're on the list" for ~1.6s and never POSTs
+    anywhere. There are no sessions, cookies, tokens, or accounts.
+
+personas:
+  - name: anonymous-desktop
+    description: "First-time visitor on a desktop viewport (1280x800)."
+    test_focus:
+      - hero rendering and reveal animations
+      - desktop sticky header scrolled state
+      - smooth-scroll anchor navigation
+      - dark mode toggle visible in header
+      - CTA email form submit
+    cannot_do: []
+  - name: anonymous-mobile
+    description: "First-time visitor on a mobile viewport (390x844, iPhone 14)."
+    test_focus:
+      - mobile layout breakpoints (760px and 980px)
+      - hamburger nav toggle (open/close, focus state)
+      - stacked single-column grids
+      - touch-targets reachable above the fold
+    cannot_do: []
+
+apps:
+  web:
+    path_patterns:
+      - "index.html"
+      - "style.css"
+      - "script.js"
+      - "*.html"
+      - "*.css"
+      - "*.js"
+      - "assets/**"
+    skill: qa-web
+    test_tool: agent-browser
+    build_command: ""
+    serve_command: "python3 -m http.server 8080"
+    serve_ready_url: "http://localhost:8080/index.html"
+
+feature_flags:
+  provider: none
+  dashboard_url: ""
+  how_to_override: "Not applicable."
+
+integrations: {}
+
+cleanup:
+  auto_cleanup: false
+  strategy: none
+  instructions: >
+    Not applicable. Tests are read-only against a static site. The CTA form is
+    mocked and creates no persistent data.
+
+failure_learning: suggest_in_report

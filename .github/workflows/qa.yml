@@ -1,0 +1,155 @@
+name: QA
+
+on:
+  pull_request:
+    branches: ["**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: qa-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  qa:
+    name: Run QA
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      CI: "true"
+      RUN_ID: ${{ github.run_id }}-${{ github.run_attempt }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install ImageMagick (optional, for GIF diffs)
+        run: |
+          if grep -q "^imagemagick: true" .factory/skills/qa/config.yaml; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq imagemagick
+          else
+            echo "imagemagick disabled in config.yaml -- skipping install"
+          fi
+
+      - name: Install droid CLI
+        run: curl -fsSL https://app.factory.ai/cli | sh
+
+      - name: Start local static server
+        run: |
+          mkdir -p qa-results
+          python3 -m http.server 8080 >qa-results/server.log 2>&1 &
+          echo $! > qa-results/server.pid
+          for i in $(seq 1 30); do
+            if curl -fsS http://localhost:8080/index.html >/dev/null; then
+              echo "server ready"
+              exit 0
+            fi
+            sleep 0.5
+          done
+          echo "server did not start" >&2
+          cat qa-results/server.log >&2
+          exit 1
+
+      - name: Run QA skill
+        id: qa
+        continue-on-error: true
+        timeout-minutes: 20
+        env:
+          GITHUB_WORKSPACE: ${{ github.workspace }}
+          QA_BASE_URL: "http://localhost:8080/index.html"
+        run: |
+          mkdir -p qa-results
+          droid exec --auto high \
+            "You are running in a non-interactive CI environment. There is NO human available. Do NOT use AskUser, do NOT wait for confirmations, do NOT pause for input. Run the qa skill against the local static server at \$QA_BASE_URL (and \`file://\$GITHUB_WORKSPACE/index.html\` where appropriate). Use the agent-browser skill for all browser interactions. Analyze the PR diff to scope which qa-web flows to run. Write the final report to qa-results/report.md following .factory/skills/qa/REPORT-TEMPLATE.md exactly. Save screenshots to qa-results/\$RUN_ID/." \
+            2>&1 | tee qa-results/qa-output.txt
+
+      - name: Stop local static server
+        if: always()
+        run: |
+          if [ -f qa-results/server.pid ]; then
+            kill "$(cat qa-results/server.pid)" 2>/dev/null || true
+          fi
+
+      - name: Upload QA artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-results-${{ github.run_id }}-${{ github.run_attempt }}
+          path: qa-results/
+          retention-days: 14
+
+      - name: Post QA report as PR comment
+        if: always() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        env:
+          QA_OUTCOME: ${{ steps.qa.outcome }}
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+
+            const reportPath = 'qa-results/report.md';
+            const fallbackPath = 'qa-results/qa-output.txt';
+            const marker = '<!-- qa-report -->';
+
+            let body = '';
+            if (fs.existsSync(reportPath)) {
+              body = fs.readFileSync(reportPath, 'utf8');
+            } else if (fs.existsSync(fallbackPath)) {
+              const out = fs.readFileSync(fallbackPath, 'utf8');
+              body = `## QA Report\n\nNo report file was produced. Raw QA output:\n\n<details>\n<summary>qa-output.txt</summary>\n\n\`\`\`\n${out.slice(0, 60000)}\n\`\`\`\n\n</details>`;
+            } else {
+              body = `## QA Report\n\nThe QA step did not produce any output.`;
+            }
+
+            if (!body.trimStart().startsWith('## QA Report')) {
+              body = `## QA Report\n\n${body}`;
+            }
+
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const artifactNote = `\n\n---\n\n_Workflow run: [#${context.runId}](${runUrl}) -- screenshots and full evidence are available in the downloadable artifacts._\n_QA step outcome: \`${process.env.QA_OUTCOME}\`._`;
+
+            body = `${marker}\n${body}${artifactNote}`;
+
+            const pr = context.payload.pull_request;
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.number,
+              per_page: 100,
+            });
+
+            const existing = comments.find(c => (c.body || '').startsWith(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.number,
+                body,
+              });
+            }
+
+      - name: Fail job if QA failed (required check)
+        if: steps.qa.outcome != 'success'
+        run: |
+          echo "QA step did not succeed (outcome=${{ steps.qa.outcome }}). Failing the job to enforce required check."
+          exit 1

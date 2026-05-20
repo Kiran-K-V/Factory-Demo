@@ -1,0 +1,33 @@
+project: Auralink-One-Landing
+completed_categories:
+  - default_target
+  - personas
+  - critical_flows
+  - external_services
+  - cleanup
+  - imagemagick
+  - github_action
+  - failure_learning
+
+answers:
+  default_target: local-static
+  default_target_note: "file:// open of index.html (with optional local http server fallback)"
+  personas:
+    - anonymous-desktop
+    - anonymous-mobile
+  critical_flows:
+    - hero_render
+    - smooth_scroll_nav
+    - mobile_menu_toggle
+    - cta_email_form
+    - dark_mode_toggle_broken
+    - sticky_header_scroll
+  external_services: none
+  cleanup: not_applicable
+  imagemagick: false
+  imagemagick_install_attempted: true
+  imagemagick_install_note: "User opted-in but sudo apt-get install failed in non-interactive shell. Install manually: sudo apt-get install -y imagemagick, then flip imagemagick: true in config.yaml"
+  github_action:
+    generate: true
+    required: true
+  failure_learning: suggest_in_report
