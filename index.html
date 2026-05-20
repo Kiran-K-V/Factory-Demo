@@ -191,28 +191,81 @@
             <p class="eyebrow">Social proof</p>
             <h2>Trusted by modern teams worldwide</h2>
           </div>
-          <div class="testimonial-grid">
-            <blockquote class="quote reveal">
-              <p>
-                “Auralink cut our call fatigue in half and raised meeting audio
-                quality overnight.”
-              </p>
-              <cite>— Priya Anand, Ops Lead at CoreShift</cite>
-            </blockquote>
-            <blockquote class="quote reveal">
-              <p>
-                “The noise cancellation and analytics dashboard are in a class
-                of their own.”
-              </p>
-              <cite>— Leo Martinez, IT Director at Novalane</cite>
-            </blockquote>
-            <blockquote class="quote reveal">
-              <p>
-                “Setup took minutes, and every remote employee instantly heard
-                the difference.”
-              </p>
-              <cite>— Morgan Kim, People Tech at BlueHarbor</cite>
-            </blockquote>
+          <div
+            class="testimonial-slider reveal"
+            role="region"
+            aria-label="Customer testimonials"
+            aria-roledescription="carousel"
+          >
+            <div class="testimonial-track-wrap">
+              <div class="testimonial-track" aria-live="polite">
+                <blockquote class="quote" role="group" aria-roledescription="slide" aria-label="Testimonial 1 of 5">
+                  <p>
+                    “Auralink cut our call fatigue in half and raised meeting audio
+                    quality overnight.”
+                  </p>
+                  <cite>— Priya Anand, Ops Lead at CoreShift</cite>
+                </blockquote>
+                <blockquote class="quote" role="group" aria-roledescription="slide" aria-label="Testimonial 2 of 5">
+                  <p>
+                    “The noise cancellation and analytics dashboard are in a class
+                    of their own.”
+                  </p>
+                  <cite>— Leo Martinez, IT Director at Novalane</cite>
+                </blockquote>
+                <blockquote class="quote" role="group" aria-roledescription="slide" aria-label="Testimonial 3 of 5">
+                  <p>
+                    “Setup took minutes, and every remote employee instantly heard
+                    the difference.”
+                  </p>
+                  <cite>— Morgan Kim, People Tech at BlueHarbor</cite>
+                </blockquote>
+                <blockquote class="quote" role="group" aria-roledescription="slide" aria-label="Testimonial 4 of 5">
+                  <p>
+                    “Battery life is incredible — 60 hours means we never think
+                    about charging during crunch weeks.”
+                  </p>
+                  <cite>— Sam Torres, Engineering Manager at Vertix</cite>
+                </blockquote>
+                <blockquote class="quote" role="group" aria-roledescription="slide" aria-label="Testimonial 5 of 5">
+                  <p>
+                    “Zero-trust pairing gave our security team the confidence to
+                    roll out to 400+ employees in one sprint.”
+                  </p>
+                  <cite>— Dana Park, CISO at Helix Systems</cite>
+                </blockquote>
+              </div>
+            </div>
+
+            <div class="testimonial-controls">
+              <button
+                class="testimonial-btn testimonial-prev"
+                type="button"
+                aria-label="Previous testimonial"
+              >
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+
+              <div class="testimonial-dots" role="tablist" aria-label="Testimonials navigation">
+                <button class="dot active" type="button" role="tab" aria-selected="true" aria-label="Show testimonial 1" data-index="0"></button>
+                <button class="dot" type="button" role="tab" aria-selected="false" aria-label="Show testimonial 2" data-index="1"></button>
+                <button class="dot" type="button" role="tab" aria-selected="false" aria-label="Show testimonial 3" data-index="2"></button>
+                <button class="dot" type="button" role="tab" aria-selected="false" aria-label="Show testimonial 4" data-index="3"></button>
+                <button class="dot" type="button" role="tab" aria-selected="false" aria-label="Show testimonial 5" data-index="4"></button>
+              </div>
+
+              <button
+                class="testimonial-btn testimonial-next"
+                type="button"
+                aria-label="Next testimonial"
+              >
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path d="M7.5 5L12.5 10L7.5 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </section>

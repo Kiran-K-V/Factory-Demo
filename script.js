@@ -129,6 +129,77 @@
     });
   }
 
+  // Testimonial slider
+  const sliderEl = doc.querySelector('.testimonial-slider');
+  if (sliderEl) {
+    const track = sliderEl.querySelector('.testimonial-track');
+    const slides = Array.from(track.querySelectorAll('.quote'));
+    const dots = Array.from(sliderEl.querySelectorAll('.dot'));
+    const prevBtn = sliderEl.querySelector('.testimonial-prev');
+    const nextBtn = sliderEl.querySelector('.testimonial-next');
+    const total = slides.length;
+    let current = 0;
+    let autoPlayId = null;
+    let touchStartX = 0;
+    let touchDeltaX = 0;
+
+    const goTo = (index) => {
+      current = (index + total) % total;
+      track.style.transform = `translateX(-${current * 100}%)`;
+      dots.forEach((d, i) => {
+        const active = i === current;
+        d.classList.toggle('active', active);
+        d.setAttribute('aria-selected', String(active));
+      });
+    };
+
+    const startAutoPlay = () => {
+      if (reduceMotion) return;
+      autoPlayId = window.setInterval(() => goTo(current + 1), 5000);
+    };
+
+    const stopAutoPlay = () => {
+      window.clearInterval(autoPlayId);
+    };
+
+    prevBtn.addEventListener('click', () => { stopAutoPlay(); goTo(current - 1); startAutoPlay(); });
+    nextBtn.addEventListener('click', () => { stopAutoPlay(); goTo(current + 1); startAutoPlay(); });
+    dots.forEach((dot) => {
+      dot.addEventListener('click', () => { stopAutoPlay(); goTo(Number(dot.dataset.index)); startAutoPlay(); });
+    });
+
+    // Touch / swipe support
+    track.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+      touchDeltaX = 0;
+      stopAutoPlay();
+    }, { passive: true });
+    track.addEventListener('touchmove', (e) => {
+      touchDeltaX = e.touches[0].clientX - touchStartX;
+    }, { passive: true });
+    track.addEventListener('touchend', () => {
+      if (Math.abs(touchDeltaX) > 40) {
+        goTo(touchDeltaX < 0 ? current + 1 : current - 1);
+      }
+      startAutoPlay();
+    });
+
+    // Keyboard navigation
+    sliderEl.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') { stopAutoPlay(); goTo(current - 1); startAutoPlay(); }
+      if (e.key === 'ArrowRight') { stopAutoPlay(); goTo(current + 1); startAutoPlay(); }
+    });
+
+    // Pause on hover/focus
+    sliderEl.addEventListener('mouseenter', stopAutoPlay);
+    sliderEl.addEventListener('mouseleave', startAutoPlay);
+    sliderEl.addEventListener('focusin', stopAutoPlay);
+    sliderEl.addEventListener('focusout', startAutoPlay);
+
+    goTo(0);
+    startAutoPlay();
+  }
+
   if (ctaForm) {
     ctaForm.addEventListener("submit", (event) => {
       event.preventDefault();

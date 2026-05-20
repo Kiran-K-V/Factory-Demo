@@ -439,7 +439,6 @@ p {
 
 .product-grid,
 .features-grid,
-.testimonial-grid,
 .pricing-grid {
   display: grid;
   gap: 1rem;
@@ -453,8 +452,97 @@ p {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.testimonial-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+/* Testimonial slider */
+.testimonial-slider {
+  position: relative;
+}
+
+.testimonial-track-wrap {
+  overflow: hidden;
+  border-radius: 1rem;
+}
+
+.testimonial-track {
+  display: flex;
+  transition: transform 450ms cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.testimonial-track .quote {
+  flex: 0 0 100%;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+.testimonial-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.4rem;
+}
+
+.testimonial-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 50%;
+  border: 1px solid rgba(163, 202, 255, 0.28);
+  background: rgba(20, 33, 62, 0.45);
+  color: var(--text);
+  cursor: pointer;
+  transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+
+.testimonial-btn:hover {
+  background: rgba(30, 50, 90, 0.7);
+  border-color: rgba(98, 215, 255, 0.5);
+  transform: scale(1.08);
+}
+
+.testimonial-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.testimonial-dots {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dot {
+  position: relative;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  border: none;
+  background: rgba(163, 202, 255, 0.3);
+  cursor: pointer;
+  padding: 0;
+  transition: background 200ms ease, transform 200ms ease, width 200ms ease;
+}
+
+/* Expand hit area to ~44×44px for touch accessibility */
+.dot::after {
+  content: "";
+  position: absolute;
+  top: -1rem;
+  right: -1rem;
+  bottom: -1rem;
+  left: -1rem;
+}
+
+.dot.active {
+  background: var(--primary);
+  box-shadow: 0 0 0.5rem rgba(98, 215, 255, 0.7);
+  width: 1.4rem;
+  border-radius: 999px;
 }
 
 .pricing-grid {
@@ -633,7 +721,6 @@ input:focus-visible {
   .hero-grid,
   .product-grid,
   .features-grid,
-  .testimonial-grid,
   .pricing-grid {
     grid-template-columns: 1fr 1fr;
   }
@@ -670,7 +757,6 @@ input:focus-visible {
   .hero-grid,
   .product-grid,
   .features-grid,
-  .testimonial-grid,
   .pricing-grid,
   .cta-form {
     grid-template-columns: 1fr;
